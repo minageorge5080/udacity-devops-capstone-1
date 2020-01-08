@@ -22,6 +22,11 @@ Parameters:
     WorkerInstanceType:
         Description: EC2 instance type for the worker node instances.
         Type: String
+        Default: t2.small
+
+    JenkingInstanceType:
+        Description: EC2 instance type for the jenkins instance.
+        Type: String
         Default: t2.micro
 
     KeyName:
@@ -216,7 +221,7 @@ Resources:
             -   Fn::GetAtt: JenkinsSecurityGroup.GroupId
             SubnetId: !Ref Subnet1
             ImageId: ami-005bdb005fb00e791
-            InstanceType: t2.micro
+            InstanceType: !Ref JenkingInstanceType
             KeyName: !Ref KeyName
             
     JenkinsIPAddress:

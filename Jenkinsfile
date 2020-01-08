@@ -28,7 +28,6 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-creds', region: eksRegion) {
                     sh 'aws eks --region=${eksRegion} update-kubeconfig --name ${eksClusterName}'
-                    sh 'kubectl config use-context $(aws eks describe-cluster --name uc-capstone-cluster --region=us-west-2 | jq -r ".cluster.arn")'
                     sh 'kubectl apply -f k8s/uc-capstone-deployment.yml'
                 }
             }
