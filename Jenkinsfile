@@ -1,5 +1,7 @@
 pipeline {
     environment {
+        eksClusterName = 'uc-capstone-cluster'
+        eksRegion = 'us-west-2'
         dockerHub = 'valentinburk'
         dockerImage = 'uc-capstone'
         dockerVersion = '0.2'
@@ -21,6 +23,14 @@ pipeline {
                     }
                 }
             }
-        }        
+        }
+        stage('K8S Deploy')  {
+            steps {
+                withAWS(credentials: 'aws-creds', region: eksRegion) {
+                    sh 'aws eks --region=${eksRegion} update-kubeconfig --name ${eksClusterName}'
+                    sh 'kubectl apply -f k8s/uc-capstone-deployment.yml'
+                }
+            }
+        }
     }
 }
