@@ -4,7 +4,7 @@ pipeline {
         stage('Lint') {
             steps {
                 sh 'tidy -q -e **/*.html'
-                sn 'hadolint Dockerfile'
+                sh 'hadolint Dockerfile'
             }
         }        
     }
