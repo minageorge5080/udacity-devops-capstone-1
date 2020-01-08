@@ -14,7 +14,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    dockerImage = docker.build('${dockerHub}/${dockerImage}:${env.GIT_COMMIT[0..7]}')
+                    dockerImage = docker.build('${dockerHub}/${dockerImage}:${GIT_REVISION,length=6}')
                     docker.withRegistry('', 'docker') {
                         dockerImage.push()
                     }
