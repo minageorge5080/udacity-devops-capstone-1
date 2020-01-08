@@ -1,9 +1,25 @@
 pipeline {
+    environment {
+        dockerHub = 'valentinburk'
+        dockerImage = 'uc-capstone'
+        dockerVersion = env.GIT_COMMIT[0..7]
+    }
     agent any
     stages {
         stage('Lint') {
             steps {
-                sh 'echo $USER'
+                sh 'tidy -q -e **/*.html'
+                sh '''docker run --rm -i hadolint/hadolint < Dockerfile'''
+            }
+        }
+        stage('Docker build') {
+            steps {
+                script {
+                    dockerImage = docker.build('${dockerHub}/${dockerImage}:${dockerVersion}')
+                    docker.withRegistry('', 'docker') {
+                        dockerImage.push()
+                    }
+                }
                 sh 'tidy -q -e **/*.html'
                 sh '''docker run --rm -i hadolint/hadolint < Dockerfile'''
             }
