@@ -187,7 +187,7 @@ Resources:
             -   IpProtocol: tcp
                 FromPort: 8080
                 ToPort: 8080
-                CidrIp: 0.0.0.0/0
+                CidrIp: !Ref SSHLocation
             -   IpProtocol: tcp
                 FromPort: 22
                 ToPort: 22
