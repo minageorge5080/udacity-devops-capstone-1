@@ -2,6 +2,7 @@ pipeline {
     environment {
         dockerHub = 'valentinburk'
         dockerImage = 'uc-capstone'
+        dockerVersion = '0.2'
     }
     agent any
     stages {
@@ -14,7 +15,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 script {
-                    dockerImage = docker.build('${dockerHub}/${dockerImage}:${GIT_REVISION,length=6}')
+                    dockerImage = docker.build('${dockerHub}/${dockerImage}:${dockerVersion}')
                     docker.withRegistry('', 'docker') {
                         dockerImage.push()
                     }
