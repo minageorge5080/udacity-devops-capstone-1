@@ -2,7 +2,7 @@ pipeline {
     environment {
         dockerHub = 'valentinburk'
         dockerImage = 'uc-capstone'
-        dockerVersion = env.GIT_COMMIT[0..7]
+        dockerVersion = '${env.GIT_COMMIT[0..7]}'
     }
     agent any
     stages {
@@ -20,8 +20,6 @@ pipeline {
                         dockerImage.push()
                     }
                 }
-                sh 'tidy -q -e **/*.html'
-                sh '''docker run --rm -i hadolint/hadolint < Dockerfile'''
             }
         }        
     }
